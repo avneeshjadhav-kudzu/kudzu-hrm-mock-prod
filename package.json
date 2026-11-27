@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "repro": "bash repro/run.sh",
     "test:e2e": "playwright test"
   },
   "dependencies": {
