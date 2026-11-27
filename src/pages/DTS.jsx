@@ -31,8 +31,8 @@ export default function DTS() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const safePage = Math.min(page, totalPages)
   const rows = filtered.slice(
-    (safePage - 1) * PAGE_SIZE + 1,
-    safePage * PAGE_SIZE + 1,
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
   )
 
   return (
