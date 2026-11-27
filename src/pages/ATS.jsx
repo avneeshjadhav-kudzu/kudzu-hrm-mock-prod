@@ -20,9 +20,9 @@ export default function ATS() {
   }, [])
 
   const filtered = useMemo(() => {
-    const term = search.trim()
+    const term = search.trim().toLowerCase()
     if (!term) return candidates
-    return candidates.filter((c) => c.name.includes(term))
+    return candidates.filter((c) => c.name.toLowerCase().includes(term))
   }, [candidates, search])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
