@@ -146,11 +146,14 @@ export default function AddDemand() {
             onChange={set('recruiter')}
           >
             <option value="">Unassigned</option>
-            {recruiters.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
+            {recruiters.map((recruiter) => {
+              const name = recruiter.name ?? recruiter
+              return (
+                <option key={name} value={name}>
+                  {name}
+                </option>
+              )
+            })}
           </select>
         </div>
         <div className="col-span-2">
