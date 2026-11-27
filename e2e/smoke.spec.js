@@ -11,6 +11,9 @@ test('sign in and see the demands list', async ({ page }) => {
 
   await expect(page.getByRole('heading', { name: 'Demands' })).toBeVisible()
   const rows = page.locator('tbody tr')
+  // Data arrives from the API after the page renders — wait for the first
+  // row before counting, otherwise the count races the fetch.
+  await expect(rows.first()).toBeVisible()
   const count = await rows.count()
   expect(count).toBeGreaterThan(0)
 })
