@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { StageBadge } from '@/components/Badges'
 import { useCandidate, useUpdateCandidateStage } from '@/hooks/useData'
 import { fmtDate } from '@/utils/format'
-import { STAGES } from '@/utils/stages'
+import { STAGES, canAdvanceTo } from '@/utils/stages'
 
 export default function ATSDetail() {
   const { id } = useParams()
@@ -23,6 +23,7 @@ export default function ATSDetail() {
   }, [id])
 
   const advance = (stage) => {
+    if (!canAdvanceTo(candidate.stage, stage)) return
     setMessage('')
     updateStage.mutate(stage, {
       onSuccess: () => {
@@ -72,7 +73,7 @@ export default function ATSDetail() {
             <button
               key={stage}
               className={stage === candidate.stage ? 'btn btn-primary' : 'btn'}
-              disabled={stage === candidate.stage || updateStage.isPending}
+              disabled={!canAdvanceTo(candidate.stage, stage) || updateStage.isPending}
               onClick={() => advance(stage)}
             >
               {stage}
