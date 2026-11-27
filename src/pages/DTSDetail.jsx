@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { StatusBadge } from '@/components/Badges'
-import { useDemands, useDemand, useUpdateDemandRecruiter } from '@/hooks/useData'
+import {
+  useActiveRecruiters,
+  useDemand,
+  useUpdateDemandRecruiter,
+} from '@/hooks/useData'
 import { fmtDate, fmtSalary } from '@/utils/format'
 
 export default function DTSDetail() {
   const { id } = useParams()
   const { data: demand } = useDemand(id)
-  const { data: allDemands = [] } = useDemands()
+  const { data: recruiters = [] } = useActiveRecruiters()
   const updateRecruiter = useUpdateDemandRecruiter(id)
   const [recruiter, setRecruiter] = useState('')
   const [saved, setSaved] = useState(false)
@@ -24,8 +28,8 @@ export default function DTSDetail() {
   }, [demand]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const options = useMemo(
-    () => [...new Set(allDemands.map((d) => d.recruiter).filter(Boolean))].sort(),
-    [allDemands],
+    () => recruiters.map((r) => r.name ?? r).filter(Boolean).sort(),
+    [recruiters],
   )
 
   const save = async (e) => {
