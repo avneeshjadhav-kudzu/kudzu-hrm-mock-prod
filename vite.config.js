@@ -5,9 +5,14 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: { '@': path.resolve(__dirname, 'src') },
+    alias: { '@': path.resolve(import.meta.dirname, 'src') },
   },
   server: { port: 5173 },
+  preview: {
+    host: true,
+    port: 5173,
+    allowedHosts: ['.up.railway.app'],
+  },
   test: {
     environment: 'node',
     include: ['src/**/*.test.js'],
