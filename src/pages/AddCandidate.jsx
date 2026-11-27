@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateCandidate } from '@/hooks/useData'
 
 export default function AddCandidate() {
   const navigate = useNavigate()
+  const formRef = useRef(null)
   const create = useCreateCandidate()
   const [form, setForm] = useState({
     name: '',
@@ -18,6 +19,17 @@ export default function AddCandidate() {
     return () => {
       document.title = 'Kudzu HRM (Mock)'
     }
+  }, [])
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault()
+        formRef.current?.requestSubmit()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
   }, [])
 
   const set =
@@ -43,7 +55,7 @@ export default function AddCandidate() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card max-w-2xl space-y-4">
+    <form ref={formRef} onSubmit={onSubmit} className="card max-w-2xl space-y-4">
       <h1 className="text-xl font-semibold text-slate-900">Add Candidate</h1>
 
       <div className="grid grid-cols-2 gap-4">
