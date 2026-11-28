@@ -49,6 +49,14 @@ export default function AddDemand() {
       setError('Title and client are required.')
       return
     }
+    if (
+      form.salaryMin !== '' &&
+      form.salaryMax !== '' &&
+      Number(form.salaryMin) > Number(form.salaryMax)
+    ) {
+      setError('Salary min cannot be greater than salary max.')
+      return
+    }
     await create.mutateAsync({
       title: form.title.trim(),
       client: form.client.trim(),
